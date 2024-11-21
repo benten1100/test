@@ -1,17 +1,19 @@
 loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Roblox-UI-Libs/main/Yun%20V2%20Lib/Yun%20V2%20Lib%20Source.lua'))()
 
 local Library = initLibrary()
-local Window = Library:Load({name = "xan", sizeX = 425, sizeY = 512, color = Color3.fromRGB(255, 255, 255)})
+local Window = Library:Load({name = "BenHub", sizeX = 425, sizeY = 512, color = Color3.fromRGB(255, 255, 255)})
 
-local Tab = Window:Tab("Aiming")
-local Tab2 = Window:Tab("Visuals")
+local Tab = Window:Tab("KFC 1.1.5.0")
 
 local Aimingsec1 = Tab:Section{name = "ตกปลา", column = 1}
+local Aimingsec2 = Tab:Section{name = "ขายปลา", column = 1}
+
 
 
 local ply = game:GetService("Players").LocalPlayer 
 
 local Character = ply.Character or ply.CharacterAdded:Wait()
+local rootpart : BasePart = Character:FindFirstChild("HumanoidRootPart")
 
 
 local filteredTools = {}
@@ -47,76 +49,6 @@ end
 
 local GuiService = game:GetService('GuiService')
 
-local function sell()
-
-	local cam = workspace.Camera
-
-
-
-	Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(464.660919, 150.62973, 230.900864, 0.993709922, 1.74805646e-08, -0.111984678, -1.0902955e-08, 1, 5.93490945e-08, 0.111984678, -5.77548214e-08, 0.993709922)
-	local npc = workspace:FindFirstChild("world"):FindFirstChild("npcs"):WaitForChild("Marc Merchant",math.huge)
-	cam.CFrame = Character:FindFirstChild("HumanoidRootPart").CFrame
-	repeat
-		task.wait()
-	until npc:FindFirstChild("Highlight")
-
-
-	local _B : ProximityPrompt = npc:FindFirstChild("dialogprompt")
-
-	if _B then
-		_B:InputHoldBegin()
-		task.wait(0)
-		_B:InputHoldEnd()
-	end
-
-	local gg = false
-
-	local test = {
-		""
-	}
-
-
-
-	task.spawn(function()
-		for _,v in ply.Backpack:GetDescendants() do
-			if v:IsA("Tool") and not string.find(v.Name, "Rod") and v.Name ~= "Equipment Bag"  and v.Name ~= "Bestiary" and v.Name ~= "Treasure Map"  and v.Name ~= "Boot"  then
-				Character.Humanoid:EquipTool(v)
-
-				repeat
-					task.wait()
-				until not v.Parent
-				task.wait()
-			end
-		end
-		gg = true
-	end)
-
-
-
-
-	repeat
-		task.wait()
-	until ply.PlayerGui:WaitForChild("options",math.huge)
-
-	while  not gg do
-		task.wait()
-		local button : ImageButton = ply.PlayerGui:WaitForChild("options",math.huge):FindFirstChild("safezone"):FindFirstChild("1option"):FindFirstChild("button")
-
-		local VirtualInputManager = game:GetService('VirtualInputManager')
-		GuiService.SelectedObject = button
-		GuiService.SelectedObject = button
-		VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-		VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-		task.wait()
-		GuiService.SelectedObject = nil
-
-		task.wait()
-	end
-
-	color(Color3.new(1, 0, 0))
-end
-
-
 
 
 
@@ -128,16 +60,18 @@ end
 local gg1 = false
 local test = 0
 Aimingsec1:Toggle {
-	Name = "Enabled",
-	flag = "", 
+	Name = "ตกปลา ออโต้",
+	flag = "test", 
 	callback = function(bool)
-		warn(bool)
+	
 		if bool then
 			gg1 = true
 			for i = 0,math.huge do
 				if not gg1 then
 					return
 				end
+				rootpart.Anchored = false
+
 				
 				for i,v in next, ply.Backpack:GetChildren() do
 					if string.find(v.Name, "Rod") then
@@ -178,7 +112,7 @@ Aimingsec1:Toggle {
 					end
 
 
-					if Character:FindFirstChild("Flimsy Rod"):FindFirstChild("values"):FindFirstChild("casted").Value then
+					if Character:FindFirstChildOfClass("Tool"):FindFirstChild("values"):FindFirstChild("casted").Value then
 						break
 					end
 
@@ -188,7 +122,8 @@ Aimingsec1:Toggle {
 
 				repeat
 					task.wait()
-				until Character:FindFirstChild("Flimsy Rod"):FindFirstChild("values"):FindFirstChild("casted").Value == true
+				until Character:FindFirstChildOfClass("Tool"):FindFirstChild("values"):FindFirstChild("casted").Value == true
+				
 
 				color(Color3.new(1, 0.509804, 0.0196078))
 
@@ -199,13 +134,14 @@ Aimingsec1:Toggle {
 					if not gg1 then
 						return
 					end
-					if Character:FindFirstChild("Flimsy Rod"):FindFirstChild("values"):FindFirstChild("bite").Value then
+					if Character:FindFirstChildOfClass("Tool"):FindFirstChild("values"):FindFirstChild("bite").Value then
 						break
 					end
 
 
 					local button : ImageButton = gui:FindFirstChild("safezone"):FindFirstChild("button")
 
+					rootpart.Anchored = true
 
 					if  gui then
 						GuiService.SelectedObject = button
@@ -222,7 +158,7 @@ Aimingsec1:Toggle {
 
 				repeat
 					task.wait()
-				until Character:FindFirstChild("Flimsy Rod"):FindFirstChild("values"):FindFirstChild("bite").Value == true
+				until Character:FindFirstChildOfClass("Tool"):FindFirstChild("values"):FindFirstChild("bite").Value == true
 
 				color(Color3.new(1, 0, 0))
 
@@ -234,7 +170,7 @@ Aimingsec1:Toggle {
 					game.ReplicatedStorage:WaitForChild("events"):WaitForChild("reelfinished"):FireServer(100, true)
 
 
-					if Character:FindFirstChild("Flimsy Rod"):FindFirstChild("values"):FindFirstChild("lure").Value == 0 then
+					if Character:FindFirstChildOfClass("Tool"):FindFirstChild("values"):FindFirstChild("lure").Value == 0 then
 						break
 					end
 
@@ -244,14 +180,120 @@ Aimingsec1:Toggle {
 
 				task.wait()
 			end
-
+			
+			rootpart.Anchored = false
 		end
 		if not bool then
+			rootpart.Anchored = false
 			gg1 = false
 		end
 	end
 }
 
+Aimingsec2:Button {
+	Name = "ขายหมด",
+	flag = "", 
+	callback = function(bool)
+		
+	
 
-local gg = false
+
+		local save = rootpart.CFrame
+
+		local cam = workspace.Camera
+
+
+
+
+		local test = false
+		task.delay(5,function()
+			test = true
+		end)
+		local rootpart : BasePart = Character:FindFirstChild("HumanoidRootPart")
+
+		Character:FindFirstChildOfClass("Humanoid").Jump = true
+
+		local kfc = false
+
+
+		rootpart.Anchored = false
+		while not test  do
+
+			if game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("Highlight") then
+				kfc = true
+			end
+
+			if ply.PlayerGui:FindFirstChild("options") then
+				break
+			end
+
+
+			if  game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant") then
+
+				Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(464.660919, 150.62973, 230.900864, 0.993709922, 1.74805646e-08, -0.111984678, -1.0902955e-08, 1, 5.93490945e-08, 0.111984678, -5.77548214e-08, 0.993709922)
+				cam.CFrame = CFrame.lookAt(Character:FindFirstChild("HumanoidRootPart").Position, game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("HumanoidRootPart").Position)
+
+
+
+				if kfc then
+					kfc = false
+					task.spawn(function()
+						local _B : ProximityPrompt =  game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("dialogprompt")
+
+						if _B then
+							_B:InputHoldBegin()
+							task.wait()
+							_B:InputHoldEnd()
+						end
+					end)
+
+
+				end
+
+			else
+
+				Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(464.660919, 150.62973, 230.900864, 0.993709922, 1.74805646e-08, -0.111984678, -1.0902955e-08, 1, 5.93490945e-08, 0.111984678, -5.77548214e-08, 0.993709922)
+
+			end
+			task.wait()
+		end
+
+
+		repeat
+			task.wait()
+		until ply.PlayerGui:FindFirstChild("options")
+
+
+		while true do
+			local toolCount = 0
+
+			if not ply.PlayerGui:FindFirstChild("options") then
+				break
+			end
+
+
+			local button: ImageButton = ply.PlayerGui:WaitForChild("options", math.huge):FindFirstChild("safezone"):FindFirstChild("2option"):FindFirstChild("button")
+
+			local VirtualInputManager = game:GetService('VirtualInputManager')
+			GuiService.SelectedObject = button
+			GuiService.SelectedObject = button
+			VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
+			VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
+			task.wait(.1)
+			GuiService.SelectedObject = nil
+
+			task.wait()
+		end
+
+		wait(.5)
+		rootpart.CFrame = save
+
+		color(Color3.new(1, 0.917647, 0))
+
+
+
+
+	end
+}
+
 
