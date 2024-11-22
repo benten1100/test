@@ -296,7 +296,7 @@ Aimingsec2:Button {
 			task.wait()
 		end
 
-		wait(.5)
+		wait(1)
 		
 
 		color(Color3.new(1, 0.917647, 0))
