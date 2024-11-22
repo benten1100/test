@@ -296,15 +296,15 @@ Aimingsec2:Button {
 			task.wait()
 		end
 
-		wait(.2)
+		wait(.5)
 		
 
 		color(Color3.new(1, 0.917647, 0))
 
 
-		for i = 0,10 do
+		for i = 0,5 do
 			rootpart.CFrame = save
-			task.wait()
+			task.wait(.001)
 		end
 
 	end
