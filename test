@@ -203,7 +203,11 @@ Aimingsec2:Button {
 		local cam = workspace.Camera
 
 
-
+		for i,v in next, ply.Backpack:GetChildren() do
+			if string.find(v.Name, "Rod") then
+				Character.Humanoid:UnequipTool(v)
+			end
+		end
 
 		local test = false
 		task.delay(5,function()
@@ -218,6 +222,13 @@ Aimingsec2:Button {
 
 		rootpart.Anchored = false
 		while not test  do
+			local humanoid = Character:FindFirstChildOfClass("Humanoid")
+
+			if humanoid then
+				humanoid:UnequipTools()
+			end
+
+
 
 			if game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("Highlight") then
 				kfc = true
@@ -285,13 +296,16 @@ Aimingsec2:Button {
 			task.wait()
 		end
 
-		wait(.5)
-		rootpart.CFrame = save
+		wait(.2)
+		
 
 		color(Color3.new(1, 0.917647, 0))
 
 
-
+		for i = 0,10 do
+			rootpart.CFrame = save
+			task.wait()
+		end
 
 	end
 }
