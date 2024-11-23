@@ -2,26 +2,21 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
-
-
 local ply = game:GetService("Players").LocalPlayer 
-
 local Character = ply.Character or ply.CharacterAdded:Wait()
 local rootpart : BasePart = Character:FindFirstChild("HumanoidRootPart")
 
 
-
 local Window = Fluent:CreateWindow({
-	Title = "Fluent " .. Fluent.Version,
-	SubTitle = "by dawid",
+	Title = "Bentendev Hub " .. Fluent.Version,
+	SubTitle = "by Teerapon Sukkul",
 	TabWidth = 160,
 	Size = UDim2.fromOffset(580, 460),
-	Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+	Acrylic = false, 
 	Theme = "Dark",
-	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+	MinimizeKey = Enum.KeyCode.LeftControl 
 })
 
---Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
 	Main = Window:AddTab({ Title = "ตกปลา", Icon = "" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
@@ -33,6 +28,13 @@ local Options = Fluent.Options
 
 local tween = game:GetService("TweenService")
 local GuiService = game:GetService('GuiService')
+local TeleportList = {}
+
+for i,v in pairs(game:GetService("Workspace").world.spawns.TpSpots:GetChildren()) do
+	if v:IsA("BasePart") then
+		table.insert(TeleportList, v.Name)
+	end
+end
 
 local function color(color1)
 	local Highlight = Instance.new("Highlight",Character)
@@ -55,151 +57,13 @@ do
 	Fluent:Notify({
 		Title = "Notification",
 		Content = "This is a notification",
-		SubContent = "SubContent", -- Optional
-		Duration = 5 -- Set to nil to make the notification not disappear
+		SubContent = "SubContent", 
+		Duration = 5 
 	})
 
 
 
-	Tabs.Main:AddButton({
-		Title = "ขายปลา",
-		Description = "Very important button",
-		Callback = function()
-			Window:Dialog({
-				Title = "ขายปลา",
-				Content = "ขายปลาหมดเลยไหม",
-				Buttons = {
-					{
-						Title = "ยืนยัน",
-						Callback = function()
-							
-							task.spawn(function()
-								local save = rootpart.CFrame
-
-								local cam = workspace.Camera
-
-
-								for i,v in next, ply.Backpack:GetChildren() do
-									if string.find(v.Name, "Rod") then
-										Character.Humanoid:UnequipTool(v)
-									end
-								end
-
-								local test = false
-								task.delay(5,function()
-									test = true
-								end)
-								local rootpart : BasePart = Character:FindFirstChild("HumanoidRootPart")
-
-								Character:FindFirstChildOfClass("Humanoid").Jump = true
-
-								local kfc = false
-
-
-								rootpart.Anchored = false
-								while not test  do
-									local humanoid = Character:FindFirstChildOfClass("Humanoid")
-
-									if humanoid then
-										humanoid:UnequipTools()
-									end
-
-
-
-									if game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("Highlight") then
-										kfc = true
-									end
-
-									if ply.PlayerGui:FindFirstChild("options") then
-										break
-									end
-
-
-									if  game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant") then
-
-										Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(464.660919, 150.62973, 230.900864, 0.993709922, 1.74805646e-08, -0.111984678, -1.0902955e-08, 1, 5.93490945e-08, 0.111984678, -5.77548214e-08, 0.993709922)
-										cam.CFrame = CFrame.lookAt(Character:FindFirstChild("HumanoidRootPart").Position, game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("HumanoidRootPart").Position)
-
-
-
-										if kfc then
-											kfc = false
-											task.spawn(function()
-												local _B : ProximityPrompt =  game.Workspace:FindFirstChild("world"):FindFirstChild("npcs"):FindFirstChild("Marc Merchant"):FindFirstChild("dialogprompt")
-
-												if _B then
-													_B:InputHoldBegin()
-													task.wait()
-													_B:InputHoldEnd()
-												end
-											end)
-
-
-										end
-
-									else
-
-										Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(464.660919, 150.62973, 230.900864, 0.993709922, 1.74805646e-08, -0.111984678, -1.0902955e-08, 1, 5.93490945e-08, 0.111984678, -5.77548214e-08, 0.993709922)
-
-									end
-									task.wait()
-								end
-
-
-								repeat
-									task.wait()
-								until ply.PlayerGui:FindFirstChild("options")
-
-
-								while true do
-									local toolCount = 0
-
-									if not ply.PlayerGui:FindFirstChild("options") then
-										break
-									end
-
-
-									local button: ImageButton = ply.PlayerGui:WaitForChild("options", math.huge):FindFirstChild("safezone"):FindFirstChild("2option"):FindFirstChild("button")
-
-									local VirtualInputManager = game:GetService('VirtualInputManager')
-									GuiService.SelectedObject = button
-									GuiService.SelectedObject = button
-									VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-									VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-									task.wait(.1)
-									GuiService.SelectedObject = nil
-
-									task.wait()
-								end
-
-								wait(1)
-
-
-								color(Color3.new(1, 0.917647, 0))
-
-
-								for i = 0,5 do
-									rootpart.CFrame = save
-									task.wait(.001)
-								end
-
-							end)
-						end
-					},
-					{
-						Title = "ออก",
-						Callback = function()
-							print("Cancelled the dialog.")
-						end
-					}
-				}
-			})
-		end
-	})
-
-
-
-	local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+	local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "ออโต้ตกปลา", Default = false })
 
 	Toggle:OnChanged(function()
 		if Options.MyToggle.Value then
@@ -325,10 +189,70 @@ do
 			rootpart.Anchored = false
 			gg1 = false
 		end
-		
-		
-		
 	end)
+
+	Tabs.Main:AddButton({
+		Title = "ขายปลา",
+		Callback = function()
+			Window:Dialog({
+				Title = "คุณต้องการขายปลาทั้งหมดหรือไม่?",
+				Content = "",
+				Buttons = {
+					{
+						Title = "ยืนยัน",
+						Callback = function()
+							
+							task.spawn(function()
+								local save = rootpart.Position
+
+
+								rootpart.CFrame = CFrame.new(464.191467, 150.935806, 256.43396, 0.637128413, -6.96660649e-08, -0.770757675, 7.26183984e-08, 1, -3.03582084e-08, 0.770757675, -3.66291104e-08, 0.637128413)
+								repeat
+									task.wait()
+								until workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant")
+
+
+
+
+
+								local ev : RemoteFunction = workspace:WaitForChild("world"):WaitForChild("npcs"):WaitForChild("Marc Merchant"):WaitForChild("merchant"):WaitForChild("sellall")
+								ev:InvokeServer()
+
+								task.wait(.5)
+								rootpart.CFrame = CFrame.new(save)
+								color(Color3.new(1, 0, 0))
+							end)
+
+						end
+					},
+					{
+						Title = "ยกเลิก",
+						Callback = function()
+						end
+					}
+				}
+			})
+		end
+	})
+
+	Tabs.Main:AddDropdown("va_Teleport_1", {
+		Title = "เลือกวาป",
+		Values = TeleportList,  
+		Multi = false,
+		Default = nil,
+		Callback = function(Value)
+			local teleportSpot = Value  
+
+			if teleportSpot then
+				for i, v in pairs(game:GetService("Workspace").world.spawns.TpSpots:GetChildren()) do
+					if v.Name == teleportSpot and v:IsA("BasePart") then
+						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0, 5, 0)
+						return  
+					end
+				end
+			end
+		end
+	})
 
 	Options.MyToggle:SetValue(false)
 
@@ -337,24 +261,13 @@ do
 end
 
 
--- Addons:
--- SaveManager (Allows you to have a configuration system)
--- InterfaceManager (Allows you to have a interface managment system)
-
--- Hand the library over to our managers
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 
--- Ignore keys that are used by ThemeManager.
--- (we dont want configs to save themes, do we?)
 SaveManager:IgnoreThemeSettings()
 
--- You can add indexes of elements the save manager should ignore
 SaveManager:SetIgnoreIndexes({})
 
--- use case for doing it this way:
--- a script hub could have themes in a global folder
--- and game configs in a separate folder per game
 InterfaceManager:SetFolder("FluentScriptHub")
 SaveManager:SetFolder("FluentScriptHub/specific-game")
 
@@ -370,6 +283,4 @@ Fluent:Notify({
 	Duration = 8
 })
 
--- You can use the SaveManager:LoadAutoloadConfig() to load a config
--- which has been marked to be one that auto loads!
 SaveManager:LoadAutoloadConfig()
